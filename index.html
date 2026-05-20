@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://cowork.xiaohongshu.com/s/d2e321f2/ -->
+<html lang="zh-CN" theme="delight_theme_light" data-style-version="0.0.1"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--<base href="/s/d2e321f2/">--><base href=".">
+<script>
+(function(){
+  if(window.__FAAS_PATCHED)return;
+  window.__FAAS_PATCHED=true;
+  var P="/s/d2e321f2";
+  function rewrite(url){
+    if(typeof url!=='string')return url;
+    if(url.startsWith(P))return url;
+    if(url.startsWith('/')&&!url.startsWith('//'))return P+url;
+    return url;
+  }
+  // ── webpack 动态 chunk public path ──
+  // Next.js / Vue CLI / CRA / 任何 webpack 产物，runtime 加载懒加载 chunk 时
+  // 走 __webpack_require__.p（在 build 阶段烧成 publicPath 配置值，默认 "/_next/" 或 "/"）。
+  // 这里在所有 chunk 加载之前覆盖成带 prefix 的版本，让动态 import 走对的 URL。
+  // 多个全局名都覆盖一遍（webpack4 / webpack5 / 各框架 wrapper 用名不同）。
+  try {
+    window.__webpack_public_path__ = P + "/_next/";
+    // eslint-disable-next-line no-undef
+    if (typeof __webpack_public_path__ !== 'undefined') __webpack_public_path__ = P + "/_next/";
+  } catch(e){}
+  // patch fetch
+  var _fetch=window.fetch;
+  window.fetch=function(input,init){
+    if(typeof input==='string')input=rewrite(input);
+    else if(input instanceof Request)input=new Request(rewrite(input.url),input);
+    return _fetch.call(this,input,init);
+  };
+  // patch XHR
+  var _open=XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open=function(method,url){
+    arguments[1]=rewrite(url);
+    return _open.apply(this,arguments);
+  };
+  // ── history API：客户端路由（Next.js Link / Vue Router / React Router）──
+  // 这些路由库内部把组件 props 里的裸 path（"/foo"）直接传给 history.pushState/
+  // replaceState，pushState 不带 prefix 会让 URL bar 跳到 /foo（丢前缀）→ 刷新 404。
+  // 这里 patch：传入绝对路径且未带前缀时自动补上。state 与 title 透传。
+  // popstate（浏览器后退/前进）由浏览器原生触发，URL 已带 prefix，路由库内部读
+  // location.pathname 时拿到带前缀的 path —— 这种边界场景由路由库自己处理；
+  // 大多数库（含 Next.js App Router）能容忍前缀作为额外 segment。
+  function patchHistory(name){
+    var orig = history[name];
+    history[name] = function(state, title, url){
+      if (typeof url === 'string') url = rewrite(url);
+      return orig.call(this, state, title, url);
+    };
+  }
+  patchHistory('pushState');
+  patchHistory('replaceState');
+  // patch DOM: rewrite absolute paths in href/action/src attributes
+  var SEL='a[href],form[action],link[href],script[src],img[src],video[src],audio[src],source[src],source[srcset],img[srcset],video[poster]';
+  function getUrlAttr(el){
+    if(el.hasAttribute('action'))return 'action';
+    if(el.hasAttribute('src'))return 'src';
+    if(el.hasAttribute('poster'))return 'poster';
+    return 'href';
+  }
+  function patchEl(el){
+    var attr=getUrlAttr(el);
+    var v=el.getAttribute(attr);
+    if(v&&v.startsWith('/')&&!v.startsWith('//')&&!v.startsWith(P)){
+      el.setAttribute(attr,P+v);
+    }
+    // srcset 需要单独处理（多 URL 格式）
+    var ss=el.getAttribute('srcset');
+    if(ss&&ss.indexOf('/')===0){
+      el.setAttribute('srcset',ss.replace(/(^|,\s*)(\/[^\/])/g,'$1'+P+'$2'));
+    }
+  }
+  function patchDOM(){document.querySelectorAll(SEL).forEach(patchEl);}
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',patchDOM);
+  }else{
+    patchDOM();
+  }
+  new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(n){
+        if(n.nodeType!==1)return;
+        if(n.matches&&n.matches(SEL))patchEl(n);
+        if(n.querySelectorAll)n.querySelectorAll(SEL).forEach(patchEl);
+      });
+    });
+  }).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>像素神眼 · Pixel Eye</title>
+  <link rel="stylesheet" href="./像素神眼 · Pixel Eye_files/index.css">
+  <script src="./像素神眼 · Pixel Eye_files/saved_resource"></script>
+  <script id="muse-dynamic-script">(function(){fetch('https://fe.xiaohongshu.com/data/muse_dynamic').then(function(r){return r.ok?r.json():Promise.reject(new Error('fetch failed'))}).then(function(data){var s=data&&data.data&&data.data.source;if(!Array.isArray(s))return;s.forEach(function(item){try{var tag=item&&item.tag;var attrs=item&&item.attrs;if(!tag||!attrs)return;var el=document.createElement(tag);for(var k in attrs){if(Object.prototype.hasOwnProperty.call(attrs,k))el.setAttribute(k,attrs[k])}document.head.appendChild(el)}catch(e){}})}).catch(function(){})})();</script>
+  <script>if(window.parent&&window.parent!==window)window.parent.postMessage({type:'museIframeScriptExecuted'},'*')</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* === 映射 Delight Design Token === */
+      --bg:          var(--color-bg);           /* Level 1 页面主体背景 */
+      --fg:          var(--color-text-title);    /* 标题/主要文字 */
+      --card:        var(--color-bg-1);          /* Level 2 卡片背景 */
+      --border:      var(--contrast-12);         /* 轻量边框 */
+      --border-strong: var(--contrast-15);       /* 强边框 */
+      --muted:       var(--color-text-description); /* 描述文字 */
+      --muted2:      var(--color-text-placeholder); /* 占位符文字 */
+      --red:         var(--color-danger);        /* 错误/危险色 */
+      --gold:        var(--color-yellow-7);      /* 金色 */
+      --gold-light:  var(--color-yellow-1);      /* 金色浅填充 */
+      --green:       var(--color-success);       /* 成功色 */
+      --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.5s cubic-bezier(.4,0,.2,1);
+    }
+    .screen.active { opacity: 1; pointer-events: all; }
+
+    /* ══════════════════════════════════════
+       START SCREEN
+    ══════════════════════════════════════ */
+    #startScreen {
+      padding: 32px 28px;
+      gap: 0;
+      background: var(--bg);
+    }
+
+    /* Decorative grid lines */
+    #startScreen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .start-inner {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0;
+      max-width: 480px; width: 100%;
+    }
+
+    .start-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      padding: 5px 12px 5px 8px;
+      border-radius: 100px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .start-badge-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--fg); opacity: 0.4;
+    }
+
+    .start-title-wrap {
+      margin-bottom: 16px; text-align: center;
+    }
+    .start-title-en {
+      display: block;
+      font-size: clamp(11px, 2.5vw, 13px);
+      font-weight: 500; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .start-title {
+      font-size: clamp(52px, 13vw, 88px);
+      font-weight: 800; letter-spacing: -0.05em; line-height: 0.92;
+      color: var(--fg); text-align: center;
+    }
+    .start-title span { 
+      display: inline-block;
+      position: relative;
+    }
+    .start-title span::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--fg); border-radius: 2px;
+    }
+
+    .start-desc {
+      font-size: clamp(13px, 3vw, 14px); color: var(--muted);
+      text-align: center; line-height: 1.6;
+      margin-bottom: 36px; max-width: 320px;
+    }
+
+    .start-modes {
+      display: flex; gap: 8px; margin-bottom: 40px;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .mode-tag {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 7px 14px; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.04em; color: var(--fg);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .mode-tag-icon {
+      width: 16px; height: 16px;
+      background: var(--fg); border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--bg); font-size: 9px;
+    }
+
+    .btn-start-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .btn-primary {
+      background: var(--fg); color: var(--bg);
+      border: none; padding: 16px 56px;
+      font-size: 14px; font-family: var(--font);
+      font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; border-radius: 12px;
+      transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.12);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22), 0 2px 6px rgba(0,0,0,0.14);
+    }
+    .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 2px 8px rgba(0,0,0,0.14); }
+
+    .start-hint {
+      font-size: 11px; color: var(--muted2);
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       GAME SCREEN
+    ══════════════════════════════════════ */
+    #gameScreen {
+      justify-content: space-between;
+      padding: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* Header */
+    .game-header {
+      width: 100%; padding: 18px 20px 0;
+      display: flex; flex-direction: column; gap: 10px;
+      flex-shrink: 0;
+    }
+    .game-meta {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .game-meta-left {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .btn-quit {
+      display: flex; align-items: center; gap: 5px;
+      background: none; border: none;
+      font-family: var(--font);
+      font-size: 12px; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.02em;
+      cursor: pointer; padding: 4px 0;
+      transition: color 0.2s;
+    }
+    .btn-quit:hover { color: var(--fg); }
+    .btn-quit svg { flex-shrink: 0; }
+
+    .level-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .level-dots {
+      display: flex; gap: 4px; align-items: center;
+    }
+    .level-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--muted2);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .level-dot.active { background: var(--fg); transform: scale(1.3); }
+    .level-dot.done { background: var(--fg); opacity: 0.35; }
+
+    .level-score {
+      font-size: 13px; font-weight: 700;
+      color: var(--fg); letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-bar-wrap {
+      width: 100%; height: 2px;
+      background: var(--border);
+      border-radius: 1px; overflow: hidden;
+    }
+    .timer-bar {
+      height: 100%; background: var(--fg);
+      border-radius: 1px;
+      transition: width 0.18s linear, background 0.4s;
+    }
+    .timer-bar.danger { background: var(--red); }
+
+    /* Canvas zone */
+    .game-body {
+      flex: 1; display: flex;
+      align-items: center; justify-content: center;
+      padding: 12px;
+      min-height: 0;
+    }
+    .challenge-zone {
+      position: relative;
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      overflow: hidden;
+      flex-shrink: 0;
+      border-radius: 4px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    /* Mode label inside zone */
+    .zone-mode-label {
+      position: absolute; top: 12px; left: 12px;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted2); pointer-events: none; z-index: 5;
+    }
+
+    /* Footer */
+    .game-footer {
+      width: 100%; padding: 0 20px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      flex-shrink: 0;
+    }
+    .jiafang-quote {
+      font-size: clamp(11px, 2.8vw, 13px);
+      color: var(--muted); letter-spacing: 0.01em;
+      text-align: center; font-style: italic;
+      min-height: 18px; max-width: 340px;
+      line-height: 1.5;
+    }
+    .footer-btns {
+      display: flex; gap: 10px; align-items: center;
+    }
+    .btn-done {
+      background: var(--fg); color: var(--bg);
+      border: none; padding: 13px 48px;
+      font-size: 13px; font-family: var(--font);
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; border-radius: 10px;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.16);
+    }
+    .btn-done:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+    .btn-done:active { transform: scale(0.97); }
+    .btn-done:disabled { opacity: 0.28; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Next btn */
+    .btn-next {
+      background: transparent; color: var(--fg);
+      border: 1.5px solid var(--border-strong); padding: 12px 36px;
+      font-size: 12px; font-family: var(--font);
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; border-radius: 10px;
+      transition: all 0.2s;
+      display: none;
+    }
+    .btn-next:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .btn-next.show { display: inline-block; }
+
+    /* ─── MODE 1: CENTERING ─── */
+    #draggable {
+      position: absolute;
+      cursor: grab; user-select: none;
+      transition: filter 0.2s;
+      touch-action: none;
+      z-index: 10;
+    }
+    #draggable:active { cursor: grabbing; }
+    #draggable.snapped { filter: drop-shadow(0 0 8px rgba(0,0,0,0.25)); }
+
+    .center-crosshair {
+      position: absolute; pointer-events: none;
+      display: none; z-index: 3;
+    }
+    .center-crosshair.show { display: block; }
+    .crosshair-line {
+      position: absolute; background: var(--red); border-radius: 1px;
+    }
+    .crosshair-h { height: 1px; width: 16px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .crosshair-v { width: 1px; height: 16px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    .result-line-svg {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; display: none; z-index: 4;
+    }
+    .result-line-svg.show { display: block; }
+
+    /* Feedback pill */
+    .feedback-pill {
+      position: absolute; left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      background: var(--fg); color: var(--bg);
+      padding: 7px 16px; border-radius: 100px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+      opacity: 0; pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1);
+      z-index: 20; box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+    .feedback-pill.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Perfect toast */
+    .perfect-toast {
+      position: fixed; top: 45%; left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 18px; font-weight: 800; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0; pointer-events: none;
+      z-index: 999;
+      text-shadow: 0 0 30px rgba(184,145,58,0.4);
+    }
+    .perfect-toast.pop {
+      animation: perfectPop 1.8s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes perfectPop {
+      0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.6); letter-spacing: 0.05em; }
+      18%  { opacity: 1; transform: translate(-50%,-50%) scale(1.04); letter-spacing: 0.2em; }
+      35%  { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+      80%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(1); }
+    }
+
+    /* Shake */
+    @keyframes shake {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      10%  { transform: translate(-3px, 2px) rotate(-0.4deg); }
+      25%  { transform: translate(3px, -2px) rotate(0.4deg); }
+      40%  { transform: translate(-2px, 2px) rotate(-0.3deg); }
+      55%  { transform: translate(2px, -1px) rotate(0.2deg); }
+      70%  { transform: translate(-1px, 1px) rotate(-0.1deg); }
+    }
+    .shake { animation: shake 0.45s ease; }
+
+    /* Hard mode: challenge zone noise texture overlay */
+    .challenge-zone.hard-noise::after {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      border-radius: 4px;
+    }
+
+    /* Hard color mode: HEX label "???" pulse */
+    @keyframes hexPulse {
+      0%, 100% { opacity: 0.55; }
+      50%       { opacity: 0.85; }
+    }
+    .hex-hidden { animation: hexPulse 2.2s ease-in-out infinite; }
+
+    /* Score pop in-game */
+    .score-pop {
+      position: fixed; right: 20px; top: 72px;
+      font-size: 13px; font-weight: 700;
+      color: var(--fg); letter-spacing: 0.04em;
+      opacity: 0; transform: translateY(0);
+      pointer-events: none; z-index: 50;
+      background: var(--card);
+      padding: 4px 10px; border-radius: 100px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .score-pop.show {
+      animation: scorePop 1.3s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes scorePop {
+      0%   { opacity: 0; transform: translateY(4px) scale(0.9); }
+      25%  { opacity: 1; transform: translateY(-12px) scale(1); }
+      75%  { opacity: 1; transform: translateY(-18px) scale(1); }
+      100% { opacity: 0; transform: translateY(-26px) scale(0.95); }
+    }
+
+    /* ─── MODE 2: COLOR MATCH ─── */
+    .color-split {
+      display: flex; width: 100%; height: 100%;
+    }
+    .color-half {
+      flex: 1; display: flex;
+      flex-direction: column; align-items: center; justify-content: flex-end;
+      padding-bottom: 16px; gap: 4px;
+    }
+    .color-label {
+      font-size: 9px; letter-spacing: 0.22em;
+      text-transform: uppercase; font-weight: 700;
+      background: rgba(0,0,0,0.18); color: rgba(255,255,255,0.9);
+      padding: 3px 8px; border-radius: 100px;
+      backdrop-filter: blur(4px);
+    }
+    .color-hex {
+      font-size: 10px; letter-spacing: 0.1em;
+      font-weight: 600; font-variant-numeric: tabular-nums;
+      background: rgba(0,0,0,0.12); color: rgba(255,255,255,0.85);
+      padding: 2px 7px; border-radius: 4px;
+    }
+    .color-divider {
+      position: absolute; top: 0; bottom: 0;
+      left: 50%; width: 2px;
+      background: rgba(255,255,255,0.5);
+      pointer-events: none; z-index: 2;
+    }
+
+    .sliders-wrap {
+      width: 100%; display: flex; flex-direction: column; gap: 8px;
+    }
+    .slider-row {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .slider-lbl {
+      font-size: 10px; letter-spacing: 0.08em;
+      font-weight: 800; color: var(--fg);
+      width: 12px; flex-shrink: 0; text-align: center;
+    }
+    input[type=range] {
+      flex: 1; -webkit-appearance: none;
+      height: 3px; border-radius: 2px;
+      outline: none; cursor: pointer;
+      background: var(--border);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--fg);
+      border: 3px solid var(--card);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.22);
+      cursor: grab;
+      transition: transform 0.15s;
+    }
+    input[type=range]::-webkit-slider-thumb:active {
+      cursor: grabbing; transform: scale(1.25);
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--fg); border: 3px solid var(--card);
+      cursor: grab;
+    }
+    .slider-val {
+      font-size: 10px; font-variant-numeric: tabular-nums;
+      font-weight: 600; color: var(--muted); width: 30px;
+      text-align: right; flex-shrink: 0;
+    }
+
+    /* Color result overlay */
+    .color-result-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.4s;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      z-index: 15;
+    }
+    .color-result-overlay.show { opacity: 1; }
+    .color-result-inner { text-align: center; }
+    .color-compare-row {
+      display: flex; gap: 16px; align-items: center;
+      margin-bottom: 16px; justify-content: center;
+    }
+    .color-swatch {
+      width: 52px; height: 52px; border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .color-diff-label {
+      font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px; font-weight: 600;
+    }
+    .color-score-big {
+      font-size: 34px; font-weight: 800;
+      letter-spacing: -0.04em; color: var(--fg);
+    }
+
+    /* ─── MODE 3: ALIGNMENT ─── */
+    .align-guide {
+      position: absolute; left: 0; right: 0;
+      height: 1px; background: rgba(232,57,42,0.4);
+      pointer-events: none; display: none; z-index: 3;
+    }
+    .align-guide.show { display: block; }
+
+    /* Align result overlay */
+    .align-result-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.4s;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      flex-direction: column; gap: 8px; z-index: 15;
+    }
+    .align-result-overlay.show { opacity: 1; }
+    .align-result-score {
+      font-size: 38px; font-weight: 800; letter-spacing: -0.04em;
+      color: var(--fg);
+    }
+    .align-result-sub {
+      font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted); font-weight: 600;
+    }
+
+    /* Center result overlay */
+    .center-result-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 14px;
+      pointer-events: none; z-index: 20;
+    }
+
+    /* ─── RESULT SCREEN ── */
+    #resultScreen {
+      padding: 24px 20px;
+      text-align: center;
+      gap: 0;
+      background: var(--bg);
+      overflow-y: auto;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    #resultScreen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .result-inner {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: 440px; width: 100%;
+    }
+
+    .result-eyebrow {
+      font-size: 9px; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--muted); font-weight: 600;
+      margin-bottom: 28px;
+    }
+
+    .result-score-wrap {
+      position: relative; margin-bottom: 32px;
+    }
+    .result-score-ring {
+      width: 148px; height: 148px; border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+    .result-score-ring::before {
+      content: '';
+      position: absolute; inset: -6px; border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+    .result-score-num {
+      font-size: 52px; font-weight: 800; line-height: 1;
+      letter-spacing: -0.05em; color: var(--fg);
+    }
+    .result-score-unit {
+      font-size: 11px; color: var(--muted); letter-spacing: 0.1em;
+      margin-top: 2px; font-weight: 500;
+    }
+
+    .result-grade {
+      display: inline-block;
+      font-size: 9px; font-weight: 800;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .grade-s { background: var(--gold-light); color: var(--gold); }
+    .grade-a { background: var(--color-success-light); color: var(--color-success); }
+    .grade-b { background: var(--color-warning-light); color: var(--color-warning); }
+    .grade-c { background: var(--color-danger-light); color: var(--color-danger); }
+
+    .result-diagnosis-title {
+      font-size: 9px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--muted); font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .result-diagnosis-text {
+      font-size: clamp(14px, 3.2vw, 17px);
+      font-weight: 600; line-height: 1.6;
+      color: var(--fg); max-width: 340px;
+      margin: 0 auto 32px; letter-spacing: -0.01em;
+    }
+
+    .result-breakdown {
+      display: flex; gap: 0; justify-content: center;
+      margin-bottom: 36px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .breakdown-item {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      padding: 16px 18px;
+      border-right: 1px solid var(--border);
+    }
+    .breakdown-item:last-child { border-right: none; }
+    .breakdown-num {
+      font-size: 20px; font-weight: 800;
+      letter-spacing: -0.03em; color: var(--fg);
+    }
+    .breakdown-label {
+      font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--muted); font-weight: 600;
+    }
+    .breakdown-item.avg-item { background: var(--fg); }
+    .breakdown-item.avg-item .breakdown-num { color: var(--bg); }
+    .breakdown-item.avg-item .breakdown-label { color: rgba(255,255,255,0.5); }
+
+    .result-btns {
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;
+    }
+    .btn-restart {
+      background: var(--fg); color: var(--bg);
+      border: none;
+      padding: 14px 32px; border-radius: 10px;
+      font-size: 13px; font-family: var(--font);
+      font-weight: 700; letter-spacing: 0.06em;
+      cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.16);
+    }
+    .btn-restart:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .btn-go-home {
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 14px 28px; border-radius: 10px;
+      font-size: 13px; font-family: var(--font);
+      font-weight: 600; letter-spacing: 0.04em;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-go-home:hover { color: var(--fg); border-color: var(--fg); }
+
+    /* Transition fade */
+    .level-transition {
+      position: fixed; inset: 0;
+      background: var(--card); opacity: 0;
+      pointer-events: none; z-index: 200;
+      transition: opacity 0.28s;
+    }
+    .level-transition.fade-in { opacity: 1; pointer-events: all; }
+
+    /* Align item */
+    .align-item {
+      position: absolute;
+      cursor: ew-resize;
+      display: flex; align-items: center;
+    }
+    .align-item[data-fixed="true"] { cursor: default; }
+    .align-item-inner { pointer-events: none; }
+
+    /* ══════════════════════════════════════
+       DIFFICULTY SELECTOR
+    ══════════════════════════════════════ */
+    .difficulty-section {
+      width: 100%; margin-bottom: 28px;
+    }
+    .difficulty-title {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted2); text-align: center;
+      margin-bottom: 12px;
+    }
+    .difficulty-group {
+      display: flex; gap: 8px;
+      justify-content: center;
+    }
+    .diff-btn {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      padding: 12px 16px 10px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.18s cubic-bezier(.4,0,.2,1);
+      min-width: 76px;
+      user-select: none;
+      outline: none;
+    }
+    .diff-btn:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .diff-btn.active {
+      border-color: var(--fg);
+      background: var(--fg);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      transform: translateY(-2px);
+    }
+    .diff-btn-emoji {
+      font-size: 18px; line-height: 1;
+    }
+    .diff-btn-name {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--fg); transition: color 0.18s;
+    }
+    .diff-btn.active .diff-btn-name { color: var(--bg); }
+    .diff-btn-hint {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--muted2); transition: color 0.18s;
+      white-space: nowrap;
+    }
+    .diff-btn.active .diff-btn-hint { color: rgba(255,255,255,0.5); }
+
+    /* Difficulty badge in game header */
+    .diff-badge {
+      display: inline-flex; align-items: center;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 100px;
+      border: 1px solid var(--border);
+      color: var(--muted); line-height: 1.6;
+    }
+    .diff-badge.easy  { border-color: #28A745; color: #28A745; background: rgba(40,167,69,0.08); }
+    .diff-badge.normal { border-color: #0A7EE5; color: #0A7EE5; background: rgba(10,126,229,0.08); }
+    .diff-badge.hard  { border-color: #E8392A; color: #E8392A; background: rgba(232,57,42,0.08); }
+
+    /* Difficulty intro banner (shown at level 1 of each stage) */
+    .stage-banner {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 300;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .stage-banner.show {
+      animation: stageBannerAnim 1.6s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes stageBannerAnim {
+      0%   { opacity: 0; }
+      15%  { opacity: 1; }
+      70%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .stage-banner-inner {
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 28px 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.16);
+    }
+    .stage-banner-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--muted2); margin-bottom: 10px;
+    }
+    .stage-banner-name {
+      font-size: 32px; font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1;
+      color: var(--fg); margin-bottom: 8px;
+    }
+    .stage-banner-sub {
+      font-size: 12px; color: var(--muted); font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       LEADERBOARD SCREEN
+    ══════════════════════════════════════ */
+    #leaderboardScreen {
+      padding: 0 0 0;
+      background: var(--bg);
+      overflow-y: auto;
+      justify-content: flex-start;
+    }
+    #leaderboardScreen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; opacity: 0.4;
+    }
+    .lb-inner {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 480px;
+      padding: 32px 24px 40px;
+      display: flex; flex-direction: column;
+    }
+    .lb-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .lb-title {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted);
+    }
+    .lb-back {
+      display: flex; align-items: center; gap: 5px;
+      background: none; border: none;
+      font-size: 11px; font-weight: 600;
+      font-family: var(--font); letter-spacing: 0.04em;
+      color: var(--muted); cursor: pointer; padding: 4px 0;
+      transition: color 0.2s;
+    }
+    .lb-back:hover { color: var(--fg); }
+    .lb-diff-tabs {
+      display: flex; gap: 6px; margin-bottom: 20px;
+    }
+    .lb-tab {
+      flex: 1; padding: 9px 8px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 11px; font-weight: 700;
+      font-family: var(--font); letter-spacing: 0.04em;
+      color: var(--fg); cursor: pointer;
+      transition: all 0.18s;
+      text-align: center;
+    }
+    .lb-tab:hover { border-color: var(--border-strong); }
+    .lb-tab.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .lb-empty {
+      text-align: center; padding: 40px 0;
+      font-size: 13px; color: var(--muted2);
+      letter-spacing: 0.02em;
+    }
+    .lb-list {
+      display: flex; flex-direction: column; gap: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .lb-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .lb-item:last-child { border-bottom: none; }
+    .lb-item.highlight {
+      background: var(--fg);
+    }
+    .lb-rank {
+      font-size: 11px; font-weight: 800;
+      letter-spacing: -0.02em; color: var(--muted2);
+      width: 22px; flex-shrink: 0; text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .lb-item.highlight .lb-rank { color: rgba(255,255,255,0.5); }
+    .lb-rank-1 { color: var(--gold) !important; font-size: 14px; }
+    .lb-rank-2 { color: var(--fg) !important; opacity: 0.6; }
+    .lb-rank-3 { color: var(--fg) !important; opacity: 0.45; }
+    .lb-name {
+      flex: 1;
+      font-size: 12px; font-weight: 600;
+      color: var(--fg); letter-spacing: 0.01em;
+    }
+    .lb-item.highlight .lb-name { color: var(--bg); }
+    .lb-meta {
+      font-size: 9px; color: var(--muted2);
+      letter-spacing: 0.04em; margin-top: 2px;
+    }
+    .lb-item.highlight .lb-meta { color: rgba(255,255,255,0.4); }
+    .lb-score {
+      font-size: 18px; font-weight: 800;
+      letter-spacing: -0.04em; color: var(--fg);
+      font-variant-numeric: tabular-nums;
+    }
+    .lb-item.highlight .lb-score { color: var(--bg); }
+    .lb-grade-chip {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 100px;
+    }
+
+    /* Result screen leaderboard section */
+    .result-lb-section {
+      width: 100%; margin-top: 8px;
+    }
+    .result-lb-title {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted2); margin-bottom: 10px;
+      text-align: center;
+    }
+    .result-lb-list {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+  </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style><link rel="stylesheet" href="./像素神眼 · Pixel Eye_files/104101b831rtud4uoig06arn8ko8g00000000019vipo1k.css"></head>
+<body>
+
+<!-- ── START SCREEN ── -->
+<div class="screen active" id="startScreen">
+  <div class="start-inner">
+    <div class="start-badge">
+      <span class="start-badge-dot"></span>
+      视觉体检仪 · Swiss Design
+    </div>
+
+    <div class="start-title-wrap">
+      <span class="start-title-en">Pixel Eye Challenge</span>
+      <h1 class="start-title">像素<span>神眼</span></h1>
+    </div>
+
+    <p class="start-desc">脱离辅助工具，挑战裸眼极限<br>测测你是真高手还是靠工具活着</p>
+
+    <div class="start-modes">
+      <div class="mode-tag">
+        <div class="mode-tag-icon">⊙</div>
+        绝对居中
+      </div>
+      <div class="mode-tag">
+        <div class="mode-tag-icon">◐</div>
+        绝对色感
+      </div>
+      <div class="mode-tag">
+        <div class="mode-tag-icon">⊞</div>
+        像素对齐
+      </div>
+    </div>
+
+    <div class="difficulty-section">
+      <div class="difficulty-title">选择难度</div>
+      <div class="difficulty-group">
+        <button class="diff-btn active" data-diff="easy" id="diffEasy">
+          <span class="diff-btn-emoji">🌱</span>
+          <span class="diff-btn-name">简单</span>
+          <span class="diff-btn-hint">30s · 辅助引导</span>
+        </button>
+        <button class="diff-btn" data-diff="normal" id="diffNormal">
+          <span class="diff-btn-emoji">⚡</span>
+          <span class="diff-btn-name">普通</span>
+          <span class="diff-btn-hint">20s · 标准测试</span>
+        </button>
+        <button class="diff-btn" data-diff="hard" id="diffHard">
+          <span class="diff-btn-emoji">💀</span>
+          <span class="diff-btn-name">地狱</span>
+          <span class="diff-btn-hint">15s · 像素级陉阱</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-start-wrap">
+      <button class="btn-primary" id="startBtn">开始挑战</button>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:0;">
+        <span class="start-hint" id="startHint">共 5 关 · 每关 30 秒</span>
+        <button class="btn-go-home" id="leaderboardBtn" style="padding:6px 14px;font-size:11px;border-radius:8px;">🏆 排行榜</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LEADERBOARD SCREEN ── -->
+<div class="screen" id="leaderboardScreen">
+  <div class="lb-inner">
+    <div class="lb-header">
+      <span class="lb-title">历史排行榜 · Hall of Fame</span>
+      <button class="lb-back" id="lbBackBtn">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        返回
+      </button>
+    </div>
+    <div class="lb-diff-tabs">
+      <button class="lb-tab active" data-diff="easy">🌱 简单</button>
+      <button class="lb-tab" data-diff="normal">⚡ 普通</button>
+      <button class="lb-tab" data-diff="hard">💀 地狱</button>
+    </div>
+    <div id="lbContent"></div>
+  </div>
+</div>
+
+<!-- ── GAME SCREEN ── -->
+<div class="screen" id="gameScreen">
+  <div class="game-header">
+    <div class="game-meta">
+      <div class="game-meta-left">
+        <button class="btn-quit" id="quitBtn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          放弃
+        </button>
+        <span class="diff-badge" id="diffBadgeInGame">Easy</span>
+        <span class="level-label" id="levelLabel">Lv.1</span>
+        <div class="level-dots" id="levelDots"></div>
+      </div>
+      <span class="level-score" id="scoreLabel">0 pts</span>
+    </div>
+    <div class="timer-bar-wrap">
+      <div class="timer-bar" id="timerBar" style="width:100%"></div>
+    </div>
+  </div>
+
+  <div class="game-body">
+    <div class="challenge-zone" id="challengeZone">
+      <!-- dynamic content -->
+    </div>
+  </div>
+
+  <div class="game-footer">
+    <p class="jiafang-quote" id="jiafangQuote"></p>
+    <div class="footer-btns">
+      <button class="btn-done" id="doneBtn">Done</button>
+      <button class="btn-next" id="nextBtn">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── RESULT SCREEN ── -->
+<div class="screen" id="resultScreen">
+  <div class="result-inner">
+    <p class="result-eyebrow" id="resultEyebrow">视觉诊断报告 · Visual Diagnosis</p>
+    <div class="result-score-wrap">
+      <div class="result-score-ring">
+        <span class="result-score-num" id="finalScore">0</span>
+        <span class="result-score-unit">分</span>
+      </div>
+    </div>
+    <span class="result-grade" id="resultGrade">S</span>
+    <p class="result-diagnosis-title">诊断结论</p>
+    <p class="result-diagnosis-text" id="diagnosisText"></p>
+    <div class="result-breakdown" id="breakdownRow"></div>
+    <!-- Leaderboard mini section in result -->
+    <div class="result-lb-section">
+      <div class="result-lb-title" id="resultLbTitle">🏆 本难度排行榜</div>
+      <div class="result-lb-list" id="resultLbList"></div>
+    </div>
+    <div class="result-btns">
+      <button class="btn-restart" id="restartBtn">再挑战一次</button>
+      <button class="btn-go-home" id="goHomeBtn">返回首页</button>
+    </div>
+  </div>
+</div>
+
+<!-- Perfect toast -->
+<div class="perfect-toast" id="perfectToast">❆ Perfect Alignment ❆</div>
+<!-- Score pop -->
+<div class="score-pop" id="scorePop"></div>
+<!-- Level transition overlay -->
+<div class="level-transition" id="lvlOverlay"></div>
+<!-- Stage banner -->
+<div class="stage-banner" id="stageBanner">
+  <div class="stage-banner-inner">
+    <div class="stage-banner-label" id="stageBannerLabel">Stage 1</div>
+    <div class="stage-banner-name" id="stageBannerName">简单模式</div>
+    <div class="stage-banner-sub" id="stageBannerSub">15 秒 / 关 · 宽容差异</div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   GAME ENGINE
+═══════════════════════════════════════════════ */
+
+const QUOTES = [
+  "「我觉得还可以再优化一下…」",
+  "「重心有点不稳，你再凭感觉调调？」",
+  "「我要那种五彩斑斓的黑，暖一点点」",
+  "「这个颜色不够好看，你懂的」",
+  "「对齐了，但感觉不够对齐」",
+  "「跟参考图差不多就行，差不多」",
+  "「能不能更有设计感一点？」",
+  "「整体感觉挺好的，但不满意」",
+  "「颜色再纯一点，但不要太纯」",
+  "「这个间距，你体会一下」",
+];
+
+const DIAGNOSIS = [
+  { min: 95, text: "人肉像素尺，绝对色感怪物。\n首席设计总监的位置是你应得的。", grade: "S", gradeClass: "grade-s" },
+  { min: 80, text: "成熟的商业设计师，能够精准\n把控甲方的每一个模糊需求。", grade: "A", gradeClass: "grade-a" },
+  { min: 60, text: "设计很\u2018随性\u2019，建议多拉几根参考线，\n少相信自己的眼睛。", grade: "B", gradeClass: "grade-b" },
+  { min: 0,  text: "视网膜颗粒度较粗，建议转行做前端开发（开玩笑的）。", grade: "C", gradeClass: "grade-c" },
+];
+
+/* ═══════════════════════════════════════════════
+   DIFFICULTY CONFIG
+═══════════════════════════════════════════════ */
+const DIFFICULTY_CONFIG = {
+  easy: {
+    name: '简单', emoji: '🌱', hint: '30s · 辅助引导',
+    stages: [
+      {
+        label: 'Stage 1', name: '入门训练', sub: '30 秒 / 关 · 宽松差异',
+        levels: 5, timer: 30,
+        // centering: offset range, score divisor, shape size, show center guide dot
+        centerOffset: [20, 45], centerScoreDiv: 60, centerShapeSize: 70, centerShowGuide: true,
+        // color: which sliders to show ('H'|'S'|'L'|'all'), sat/lig locked to mid range
+        colorSliders: 'single',  // easy: only 1 random slider
+        colorSatRange: [55, 85], colorLigRange: [42, 62], colorScoreMult: 1.2,
+        // align: offset range, max perfect diff, show soft guide line
+        alignOffset: [12, 30], alignMaxDiff: 45, alignShowGuide: true,
+      },
+      {
+        label: 'Stage 2', name: '表现不错', sub: '30 秒 / 关 · 虐待加重',
+        levels: 5, timer: 30,
+        centerOffset: [30, 60], centerScoreDiv: 52, centerShapeSize: 60, centerShowGuide: true,
+        colorSliders: 'two',  // easy stage 2: 2 sliders
+        colorSatRange: [45, 90], colorLigRange: [38, 66], colorScoreMult: 1.6,
+        alignOffset: [16, 40], alignMaxDiff: 38, alignShowGuide: true,
+      },
+      {
+        label: 'Stage 3', name: '真正考验', sub: '30 秒 / 关 · 接近测试正常模式',
+        levels: 5, timer: 30,
+        centerOffset: [40, 70], centerScoreDiv: 48, centerShapeSize: 54, centerShowGuide: false,
+        colorSliders: 'all',  // easy stage 3: full 3 sliders
+        colorSatRange: [40, 90], colorLigRange: [35, 65], colorScoreMult: 2.0,
+        alignOffset: [20, 52], alignMaxDiff: 32, alignShowGuide: false,
+      },
+    ],
+  },
+  normal: {
+    name: '普通', emoji: '⚡', hint: '20s · 标准测试',
+    stages: [
+      {
+        label: 'Stage 1', name: '准备工作', sub: '20 秒 / 关 · 标准难度',
+        levels: 5, timer: 20,
+        centerOffset: [55, 90], centerScoreDiv: 50, centerShapeSize: 54, centerShowGuide: false,
+        colorSliders: 'all',
+        colorSatRange: [30, 95], colorLigRange: [30, 70], colorScoreMult: 2.3,
+        alignOffset: [24, 65], alignMaxDiff: 28, alignShowGuide: false,
+      },
+      {
+        label: 'Stage 2', name: '正式上岗', sub: '20 秒 / 关 · 频繁切换',
+        levels: 5, timer: 20,
+        centerOffset: [65, 100], centerScoreDiv: 48, centerShapeSize: 54, centerShowGuide: false,
+        colorSliders: 'all',
+        colorSatRange: [20, 100], colorLigRange: [25, 75], colorScoreMult: 2.5,
+        alignOffset: [28, 72], alignMaxDiff: 25, alignShowGuide: false,
+      },
+      {
+        label: 'Stage 3', name: '不许辣眼', sub: '20 秒 / 关 · 考验维度提升',
+        levels: 5, timer: 20,
+        centerOffset: [70, 110], centerScoreDiv: 45, centerShapeSize: 54, centerShowGuide: false,
+        colorSliders: 'all',
+        colorSatRange: [10, 100], colorLigRange: [20, 80], colorScoreMult: 2.8,
+        alignOffset: [32, 78], alignMaxDiff: 22, alignShowGuide: false,
+        // NOTE: normal mode does not use hard align center or small shapes
+      },
+    ],
+  },
+  hard: {
+    name: '地狱', emoji: '💀', hint: '15s · 像素级陉阱',
+    stages: [
+      {
+        // Stage 1：图形 22px，居中限差 12px，色感悩罚 4.5x，
+        // 对齐改为「居中对齐」模式（移动元素中心对齐到参考元素中心），容错仅 10px
+        label: 'Stage 1', name: '初尝地狱', sub: '15 秒 / 关 · 小图形 · 居中对齐',
+        levels: 5, timer: 15,
+        centerOffset: [80, 115], centerScoreDiv: 12, centerShapeSize: 22, centerShowGuide: false,
+        centerDrift: 0,
+        colorSliders: 'all',
+        colorSatRange: [0, 100], colorLigRange: [8, 92], colorScoreMult: 4.5,
+        colorHideHex: false,
+        colorInitNoise: [18, 50],  // 地狱：初始色接近目标但有偏差
+        alignOffset: [50, 110], alignMaxDiff: 10, alignShowGuide: false,
+        alignJitter: false,
+        alignCenterMode: true,  // 地狱模式：居中对齐而非左边缘对齐
+      },
+      {
+        // Stage 2：图形 16px，居中限差 8px，色感悩罚 5.5x，居中对齐容错 7px
+        label: 'Stage 2', name: '赶尽杀绝', sub: '15 秒 / 关 · 像素级差异测试',
+        levels: 5, timer: 15,
+        centerOffset: [95, 135], centerScoreDiv: 8, centerShapeSize: 16, centerShowGuide: false,
+        centerDrift: 0,
+        colorSliders: 'all',
+        colorSatRange: [0, 100], colorLigRange: [3, 97], colorScoreMult: 5.5,
+        colorHideHex: false,
+        colorInitNoise: [22, 60],  // 地狱 Stage 2：偏差更大
+        alignOffset: [65, 130], alignMaxDiff: 7, alignShowGuide: false,
+        alignJitter: false,
+        alignCenterMode: true,
+      },
+      {
+        // Stage 3：图形 12px，限差 5px，色感悩罚 7x，居中对齐容错 5px
+        label: 'Stage 3', name: '神眼认证', sub: '15 秒 / 关 · 5px内才算居中',
+        levels: 5, timer: 15,
+        centerOffset: [110, 150], centerScoreDiv: 5, centerShapeSize: 12, centerShowGuide: false,
+        centerDrift: 0,
+        colorSliders: 'all',
+        colorSatRange: [0, 100], colorLigRange: [0, 100], colorScoreMult: 7.0,
+        colorHideHex: false,
+        colorInitNoise: [28, 75],  // 地狱 Stage 3：最大偏差，最难调
+        alignOffset: [80, 150], alignMaxDiff: 5, alignShowGuide: false,
+        alignJitter: false,
+        alignCenterMode: true,
+      },
+    ],
+  },
+};
+
+let selectedDifficulty = 'easy';
+let currentStageIndex = 0;  // randomly chosen stage index (0/1/2) per run
+let currentLevel = 0;       // within current 5-level run
+let totalLevels = 5;        // always 5 levels per run
+let levelScores = [];       // scores for this run (5 values)
+let currentStageScores = []; // alias for levelScores
+let totalScore = 0;
+let modeSequence = [];
+let timerInterval = null;
+let timerSeconds = 15;
+let timerLeft = timerSeconds;
+let levelSubmitted = false;
+
+function getCurrentStageCfg() {
+  return DIFFICULTY_CONFIG[selectedDifficulty].stages[currentStageIndex];
+}
+
+/* ═══════════════════════════════════════════════
+   LEADERBOARD (localStorage)
+═══════════════════════════════════════════════ */
+const LB_KEY = 'pixeleye_lb_v2';
+const LB_MAX = 10;
+
+function lbLoad() {
+  try {
+    return JSON.parse(localStorage.getItem(LB_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+
+function lbSave(diff, entry) {
+  // entry: { score, grade, date, stageLabel }
+  const all = lbLoad();
+  if (!all[diff]) all[diff] = [];
+  all[diff].push(entry);
+  // Sort desc by score
+  all[diff].sort((a, b) => b.score - a.score);
+  // Keep top LB_MAX
+  all[diff] = all[diff].slice(0, LB_MAX);
+  try { localStorage.setItem(LB_KEY, JSON.stringify(all)); } catch(e) {}
+  // Return rank (1-based)
+  return all[diff].findIndex(e => e === entry) + 1;
+}
+
+function lbGet(diff) {
+  const all = lbLoad();
+  return all[diff] || [];
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+function renderLbList(diff, highlightScore = null) {
+  const entries = lbGet(diff);
+  const diffCfgLb = DIFFICULTY_CONFIG[diff];
+  if (!entries.length) {
+    return `<div class="lb-empty">暂无记录<br><span style="font-size:11px;">完成一局后自动入榜</span></div>`;
+  }
+  let html = '<div class="lb-list">';
+  entries.forEach((e, i) => {
+    const rank = i + 1;
+    const isHighlight = highlightScore !== null && e.score === highlightScore && !e._alreadyMarked;
+    // Mark first matching entry as highlight to avoid multiple highlights on same score
+    if (isHighlight) e._alreadyMarked = true;
+    const rankClass = rank === 1 ? 'lb-rank-1' : rank === 2 ? 'lb-rank-2' : rank === 3 ? 'lb-rank-3' : '';
+    const rankIcon  = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+    const gradeColors = { S: '#B8913A', A: '#28A745', B: '#F0A030', C: '#E8392A' };
+    const gradeColor  = gradeColors[e.grade] || 'var(--muted)';
+    html += `
+      <div class="lb-item${isHighlight ? ' highlight' : ''}">
+        <span class="lb-rank ${rankClass}">${rankIcon}</span>
+        <div style="flex:1;">
+          <div class="lb-name">${e.stageLabel} · ${diffCfgLb.name}</div>
+          <div class="lb-meta">${formatDate(e.date)}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
+          <span class="lb-score">${e.score}</span>
+          <span class="lb-grade-chip" style="background:${gradeColor}18;color:${gradeColor};">${e.grade}</span>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+const startScreen      = document.getElementById('startScreen');
+const gameScreen       = document.getElementById('gameScreen');
+const resultScreen     = document.getElementById('resultScreen');
+const levelLabel       = document.getElementById('levelLabel');
+const levelDots        = document.getElementById('levelDots');
+const scoreLabel       = document.getElementById('scoreLabel');
+const timerBar         = document.getElementById('timerBar');
+const challengeZone    = document.getElementById('challengeZone');
+const jiafangQuote     = document.getElementById('jiafangQuote');
+const doneBtn          = document.getElementById('doneBtn');
+const nextBtn          = document.getElementById('nextBtn');
+const quitBtn          = document.getElementById('quitBtn');
+const perfectToast     = document.getElementById('perfectToast');
+const scorePop         = document.getElementById('scorePop');
+const lvlOverlay       = document.getElementById('lvlOverlay');
+const finalScore       = document.getElementById('finalScore');
+const diagnosisText    = document.getElementById('diagnosisText');
+const breakdownRow     = document.getElementById('breakdownRow');
+const restartBtn       = document.getElementById('restartBtn');
+const goHomeBtn        = document.getElementById('goHomeBtn');
+const resultGrade      = document.getElementById('resultGrade');
+const stageBanner      = document.getElementById('stageBanner');
+const stageBannerLabel = document.getElementById('stageBannerLabel');
+const stageBannerName  = document.getElementById('stageBannerName');
+const stageBannerSub   = document.getElementById('stageBannerSub');
+const startHint        = document.getElementById('startHint');
+const leaderboardScreen = document.getElementById('leaderboardScreen');
+const lbContent         = document.getElementById('lbContent');
+const resultLbList      = document.getElementById('resultLbList');
+const resultEyebrow     = document.getElementById('resultEyebrow');
+const resultLbTitle     = document.getElementById('resultLbTitle');
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.toggle('active', s.id === id);
+  });
+}
+
+const rand = (a, b) => Math.random() * (b - a) + a;
+const randInt = (a, b) => Math.floor(rand(a, b+1));
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+function getZoneSize() {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const maxW = Math.min(vw - 40, 440);
+  const maxH = vh - 210;
+  const size = Math.min(maxW, maxH, 440);
+  return size;
+}
+
+function setupZone() {
+  const s = getZoneSize();
+  challengeZone.style.width  = s + 'px';
+  challengeZone.style.height = s + 'px';
+}
+
+function updateLevelDots() {
+  levelDots.innerHTML = '';
+  // Show 5 dots per stage, with stage separator hints
+  for (let i = 0; i < totalLevels; i++) {
+    const d = document.createElement('div');
+    d.className = 'level-dot' +
+      (i === currentLevel ? ' active' : i < currentLevel ? ' done' : '');
+    levelDots.appendChild(d);
+  }
+}
+
+function showStageBanner(stageIdx) {
+  const cfg = DIFFICULTY_CONFIG[selectedDifficulty].stages[stageIdx];
+  stageBannerLabel.textContent = cfg.label;
+  stageBannerName.textContent  = cfg.name;
+  stageBannerSub.textContent   = cfg.sub;
+  stageBanner.classList.remove('show');
+  void stageBanner.offsetWidth;
+  stageBanner.classList.add('show');
+  setTimeout(() => stageBanner.classList.remove('show'), 1700);
+}
+
+/* ═══════════════════════════════════════════════
+   MODE 1: CENTERING
+═══════════════════════════════════════════════ */
+let dragState = null;
+let dragEl = null;
+let dragPos = { x: 0, y: 0 };
+
+function setupCenteringMode() {
+  const zone = challengeZone;
+  zone.innerHTML = '';
+
+  const zs = getZoneSize();
+  const shapes = ['circle','square','triangle','diamond'];
+  const shape = pick(shapes);
+  const cfg = getCurrentStageCfg();
+  const size = cfg.centerShapeSize || 54;
+
+  const cx = zs / 2, cy = zs / 2;
+  const angle = Math.random() * Math.PI * 2;
+  const dist0 = rand(cfg.centerOffset[0], cfg.centerOffset[1]);
+  let sx = clamp(cx + Math.cos(angle) * dist0 - size/2, 8, zs - size - 8);
+  let sy = clamp(cy + Math.sin(angle) * dist0 - size/2, 8, zs - size - 8);
+
+  dragPos = { x: sx, y: sy };
+
+  // Mode label — hard mode hides instruction text
+  const ml = document.createElement('div');
+  ml.className = 'zone-mode-label';
+  ml.textContent = selectedDifficulty === 'hard' ? '…' : '拖拽图形到正中心';
+  zone.appendChild(ml);
+
+  // Center guide dot: easy shows a clear crosshair, hard shows nothing
+  if (cfg.centerShowGuide) {
+    // Easy: visible dashed crosshair arms as soft guide
+    const guideSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    guideSvg.setAttribute('width', zs);
+    guideSvg.setAttribute('height', zs);
+    guideSvg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;z-index:1;opacity:0.18;';
+    guideSvg.innerHTML = `
+      <line x1="${cx}" y1="0" x2="${cx}" y2="${zs}" stroke="#0A0A0A" stroke-width="1" stroke-dasharray="4,6"/>
+      <line x1="0" y1="${cy}" x2="${zs}" y2="${cy}" stroke="#0A0A0A" stroke-width="1" stroke-dasharray="4,6"/>
+      <circle cx="${cx}" cy="${cy}" r="5" fill="#0A0A0A"/>
+    `;
+    zone.appendChild(guideSvg);
+  } else {
+    // Subtle center dot only for non-easy
+    const cdot = document.createElement('div');
+    cdot.style.cssText = `position:absolute;left:50%;top:50%;width:3px;height:3px;background:rgba(0,0,0,0.06);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;`;
+    zone.appendChild(cdot);
+  }
+
+  // Crosshair (shown after submit)
+  const ch = document.createElement('div');
+  ch.className = 'center-crosshair';
+  ch.id = 'centerCrosshair';
+  ch.innerHTML = `<div class="crosshair-line crosshair-h"></div><div class="crosshair-line crosshair-v"></div>`;
+  ch.style.cssText = `position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;`;
+  zone.appendChild(ch);
+
+  // SVG result line
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('class','result-line-svg');
+  svg.setAttribute('id','resultLineSvg');
+  zone.appendChild(svg);
+
+  // Feedback pill wrapper
+  const pillWrap = document.createElement('div');
+  pillWrap.className = 'center-result-overlay';
+  const pill = document.createElement('div');
+  pill.className = 'feedback-pill';
+  pill.id = 'feedbackPill';
+  pillWrap.appendChild(pill);
+  zone.appendChild(pillWrap);
+
+  // Shape element
+  // Hard mode tiny shapes: wrap in a larger hit-area div so the shape is draggable
+  const hitPad = (selectedDifficulty === 'hard' && size < 32) ? Math.round((40 - size) / 2) : 0;
+  const elOuter = document.createElement('div');
+  elOuter.id = 'draggable';
+  // Outer div is the larger hit area, centered at same position
+  const outerSize = size + hitPad * 2;
+  elOuter.style.cssText = `position:absolute;width:${outerSize}px;height:${outerSize}px;left:${sx - hitPad}px;top:${sy - hitPad}px;cursor:grab;user-select:none;touch-action:none;display:flex;align-items:center;justify-content:center;`;
+  // Adjust dragPos to track the outer element's top-left
+  dragPos = { x: sx - hitPad, y: sy - hitPad };
+
+  const el = document.createElement('div');
+  el.style.cssText = `width:${size}px;height:${size}px;flex-shrink:0;`;
+  elOuter.appendChild(el);
+
+  // Hard mode: use a lighter fill so tiny shape is harder to pin
+  const fillColor = selectedDifficulty === 'hard' ? '#3A3A3A' : '#0A0A0A';
+  if (shape === 'circle') {
+    el.style.borderRadius = '50%';
+    el.style.background = fillColor;
+  } else if (shape === 'square') {
+    el.style.background = fillColor;
+    el.style.borderRadius = '3px';
+  } else if (shape === 'triangle') {
+    el.style.background = 'transparent';
+    const s2 = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s2.setAttribute('viewBox','0 0 54 54');
+    s2.style.cssText = 'width:100%;height:100%;';
+    const poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('points','27,4 52,50 2,50');
+    poly.setAttribute('fill', fillColor);
+    s2.appendChild(poly);
+    el.appendChild(s2);
+  } else {
+    el.style.background = 'transparent';
+    const s3 = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s3.setAttribute('viewBox','0 0 54 54');
+    s3.style.cssText = 'width:100%;height:100%;';
+    const poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('points','27,2 52,27 27,52 2,27');
+    poly.setAttribute('fill', fillColor);
+    s3.appendChild(poly);
+    el.appendChild(s3);
+  }
+
+  zone.appendChild(elOuter);
+  dragEl = elOuter;
+
+  function onDown(e) {
+    if (levelSubmitted) return;
+    e.preventDefault();
+    const pt = e.touches ? e.touches[0] : e;
+    dragState = { startX: pt.clientX, startY: pt.clientY, elX: dragPos.x, elY: dragPos.y };
+    elOuter.style.cursor = 'grabbing';
+    elOuter.style.transition = 'none';
+  }
+  function onMove(e) {
+    if (!dragState || levelSubmitted) return;
+    e.preventDefault();
+    const pt = e.touches ? e.touches[0] : e;
+    const zs = getZoneSize();
+    dragPos.x = clamp(dragState.elX + pt.clientX - dragState.startX, -hitPad, zs - outerSize + hitPad);
+    dragPos.y = clamp(dragState.elY + pt.clientY - dragState.startY, -hitPad, zs - outerSize + hitPad);
+    elOuter.style.left = dragPos.x + 'px';
+    elOuter.style.top  = dragPos.y + 'px';
+  }
+  function onUp() {
+    if (!dragState) return;
+    dragState = null;
+    elOuter.style.cursor = 'grab';
+  }
+
+  elOuter.addEventListener('mousedown', onDown);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  elOuter.addEventListener('touchstart', onDown, { passive: false });
+  window.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('touchend', onUp);
+
+  // ── HARD MODE: Shape slowly drifts while not being dragged ──
+  let driftRaf = null;
+  let driftVx = 0, driftVy = 0;
+  const driftSpeed = cfg.centerDrift || 0;
+  if (driftSpeed > 0) {
+    // Init random drift direction
+    const driftAngle = Math.random() * Math.PI * 2;
+    driftVx = Math.cos(driftAngle) * driftSpeed * 0.016;
+    driftVy = Math.sin(driftAngle) * driftSpeed * 0.016;
+    let lastTime = performance.now();
+
+    function driftTick(now) {
+      if (levelSubmitted) return;
+      if (!dragState) {
+        const dt = Math.min((now - lastTime) / 1000, 0.05);
+        const zs2 = getZoneSize();
+        dragPos.x += driftVx * driftSpeed * dt * 60;
+        dragPos.y += driftVy * driftSpeed * dt * 60;
+        // Bounce off walls
+        if (dragPos.x <= 0 || dragPos.x >= zs2 - size) { driftVx *= -1; }
+        if (dragPos.y <= 0 || dragPos.y >= zs2 - size) { driftVy *= -1; }
+        dragPos.x = clamp(dragPos.x, 0, zs2 - outerSize);
+        dragPos.y = clamp(dragPos.y, 0, zs2 - outerSize);
+        elOuter.style.left = dragPos.x + 'px';
+        elOuter.style.top  = dragPos.y + 'px';
+        // Randomly change direction occasionally
+        if (Math.random() < 0.004) {
+          const a = Math.random() * Math.PI * 2;
+          driftVx = Math.cos(a);
+          driftVy = Math.sin(a);
+        }
+      }
+      lastTime = now;
+      driftRaf = requestAnimationFrame(driftTick);
+    }
+    driftRaf = requestAnimationFrame(driftTick);
+  }
+
+  zone._cleanup = () => {
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup', onUp);
+    window.removeEventListener('touchmove', onMove);
+    window.removeEventListener('touchend', onUp);
+    if (driftRaf) cancelAnimationFrame(driftRaf);
+  };
+}
+
+function submitCenteringMode() {
+  const zs = getZoneSize();
+  const cfg = getCurrentStageCfg();
+  const size = cfg.centerShapeSize || 54;
+  const hitPad = (selectedDifficulty === 'hard' && size < 32) ? Math.round((40 - size) / 2) : 0;
+  const cx = zs / 2, cy = zs / 2;
+  // dragPos tracks the outer hit-area top-left; actual shape center = dragPos + hitPad + size/2
+  const elCx = dragPos.x + hitPad + size / 2;
+  const elCy = dragPos.y + hitPad + size / 2;
+  const dist = Math.sqrt((elCx - cx) ** 2 + (elCy - cy) ** 2);
+
+  const score = Math.max(0, Math.round(100 - (dist / cfg.centerScoreDiv) * 100));
+  const pct = score;
+
+  const ch = document.getElementById('centerCrosshair');
+  if (ch) ch.classList.add('show');
+
+  const svg = document.getElementById('resultLineSvg');
+  if (svg) {
+    svg.style.display = 'block';
+    svg.innerHTML = `
+      <line x1="${elCx}" y1="${elCy}" x2="${cx}" y2="${cy}"
+            stroke="#E8392A" stroke-width="1" stroke-dasharray="3,3" opacity="0.9"/>
+      <circle cx="${elCx}" cy="${elCy}" r="3.5" fill="#E8392A" opacity="1"/>
+      <circle cx="${cx}" cy="${cy}" r="3.5" fill="#E8392A" opacity="1"/>
+      <circle cx="${cx}" cy="${cy}" r="7" fill="none" stroke="#E8392A" stroke-width="1" opacity="0.4"/>
+    `;
+  }
+
+  const pill = document.getElementById('feedbackPill');
+  if (pill) {
+    pill.textContent = `精确度 ${pct}% · 偏离 ${dist.toFixed(1)}px`;
+    pill.classList.add('show');
+  }
+
+  return score;
+}
+
+/* ═══════════════════════════════════════════════
+   MODE 2: COLOR MATCH
+═══════════════════════════════════════════════ */
+let targetColor = { h: 0, s: 0, l: 0 };
+let playerColor = { h: 180, s: 50, l: 50 };
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  const toHex = x => Math.round(x * 255).toString(16).padStart(2,'0');
+  return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
+}
+
+function hslToRgb(h, s, l) {
+  s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return {
+    r: Math.round(f(0) * 255),
+    g: Math.round(f(8) * 255),
+    b: Math.round(f(4) * 255),
+  };
+}
+
+function colorDistance(c1, c2) {
+  return Math.sqrt((c1.r-c2.r)**2 + (c1.g-c2.g)**2 + (c1.b-c2.b)**2);
+}
+
+// Tracks which channel(s) are locked in easy single-slider mode
+let colorLockedChannels = [];  // e.g. ['s','l'] means H is the active one
+
+function setupColorMode() {
+  const zone = challengeZone;
+  zone.innerHTML = '';
+
+  const ccfg = getCurrentStageCfg();
+  targetColor = {
+    h: randInt(0, 359),
+    s: randInt(ccfg.colorSatRange[0], ccfg.colorSatRange[1]),
+    l: randInt(ccfg.colorLigRange[0], ccfg.colorLigRange[1])
+  };
+
+  // Determine slider mode
+  const sliderMode = ccfg.colorSliders || 'all'; // 'single' | 'two' | 'all'
+  const allChannels = ['h','s','l'];
+  let activeChannels;
+  if (sliderMode === 'single') {
+    // Pick one random channel to expose; lock others to target values
+    const ch = pick(allChannels);
+    activeChannels = [ch];
+    colorLockedChannels = allChannels.filter(c => c !== ch);
+  } else if (sliderMode === 'two') {
+    // Pick two channels; lock one to target
+    const locked = pick(allChannels);
+    activeChannels = allChannels.filter(c => c !== locked);
+    colorLockedChannels = [locked];
+  } else {
+    activeChannels = allChannels;
+    colorLockedChannels = [];
+  }
+
+  // Init playerColor
+  if (selectedDifficulty === 'hard') {
+    // Hard: start close to target but with sneaky noise (from config)
+    const noise = ccfg.colorInitNoise || [15, 45];
+    const hNoise = randInt(noise[0], noise[1]) * (Math.random() < 0.5 ? 1 : -1);
+    const sNoise = randInt(Math.round(noise[0]*0.5), Math.round(noise[1]*0.5)) * (Math.random() < 0.5 ? 1 : -1);
+    const lNoise = randInt(Math.round(noise[0]*0.5), Math.round(noise[1]*0.5)) * (Math.random() < 0.5 ? 1 : -1);
+    playerColor = {
+      h: clamp((targetColor.h + hNoise + 360) % 360, 0, 359),
+      s: clamp(targetColor.s + sNoise, 0, 100),
+      l: clamp(targetColor.l + lNoise, 0, 100),
+    };
+  } else {
+    playerColor = { h: 180, s: 50, l: 50 };
+  }
+  colorLockedChannels.forEach(ch => { playerColor[ch] = targetColor[ch]; });
+
+  const hideHex = ccfg.colorHideHex === true; // hard: hide target HEX
+  const targetHex = hslToHex(targetColor.h, targetColor.s, targetColor.l);
+  const playerHex = hslToHex(playerColor.h, playerColor.s, playerColor.l);
+  // In hard mode, also hide player HEX value until they tune
+  const shownTargetHex = hideHex ? '???' : targetHex.toUpperCase();
+
+  zone.style.overflow = 'hidden';
+  zone.innerHTML = `
+    <div class="color-split" id="colorSplit">
+      <div class="color-half" id="colorTarget" style="background:${targetHex};">
+        <span class="color-label">目标</span>
+        <span class="color-hex ${hideHex ? 'hex-hidden' : ''}" id="targetHexLabel" style="${hideHex ? 'letter-spacing:0.28em;' : ''}">${shownTargetHex}</span>
+      </div>
+      <div class="color-divider"></div>
+      <div class="color-half" id="colorPlayer" style="background:${playerHex};">
+        <span class="color-label">你的</span>
+        <span class="color-hex" id="playerHexLabel">${playerHex.toUpperCase()}</span>
+      </div>
+    </div>
+    <div class="color-result-overlay" id="colorResultOverlay">
+      <div class="color-result-inner">
+        <div class="color-compare-row">
+          <div class="color-swatch" id="compareTarget"></div>
+          <div style="font-size:16px;color:#C8C8C8;font-weight:300;">vs</div>
+          <div class="color-swatch" id="comparePlayer"></div>
+        </div>
+        <div class="color-diff-label">色差距离</div>
+        <div class="color-score-big" id="colorScoreBig">—</div>
+      </div>
+    </div>
+  `;
+
+  let sliderSection = document.getElementById('colorSliderSection');
+  if (!sliderSection) {
+    sliderSection = document.createElement('div');
+    sliderSection.id = 'colorSliderSection';
+    sliderSection.className = 'sliders-wrap';
+    sliderSection.style.cssText = 'width:100%;max-width:440px;padding:0 0 2px;';
+    const footer = document.querySelector('.game-footer');
+    footer.insertBefore(sliderSection, footer.firstChild);
+  }
+  sliderSection.style.display = 'flex';
+
+  // Build only the active sliders; show locked hint label for locked channels
+  const sliderDefs = [
+    { id: 'slH', valId: 'valH', ch: 'h', lbl: 'H', color: '#E8392A', min: 0, max: 359, unit: '°' },
+    { id: 'slS', valId: 'valS', ch: 's', lbl: 'S', color: '#28A745', min: 0, max: 100, unit: '%' },
+    { id: 'slL', valId: 'valL', ch: 'l', lbl: 'L', color: '#0A7EE5', min: 0, max: 100, unit: '%' },
+  ];
+  let slidersHTML = '';
+  sliderDefs.forEach(def => {
+    const isActive = activeChannels.includes(def.ch);
+    const val = playerColor[def.ch];
+    const displayVal = def.unit === '°' ? val + '°' : val + '%';
+    if (isActive) {
+      slidersHTML += `
+        <div class="slider-row">
+          <span class="slider-lbl" style="color:${def.color};">${def.lbl}</span>
+          <input type="range" id="${def.id}" min="${def.min}" max="${def.max}" value="${val}">
+          <span class="slider-val" id="${def.valId}">${displayVal}</span>
+        </div>`;
+    }
+    // Locked channels: show a dim locked indicator in easy simplified modes
+    if (!isActive && (sliderMode === 'single' || sliderMode === 'two')) {
+      const thumbPct = def.max > 0 ? (val / def.max) * 100 : 0;
+      slidersHTML += `
+        <div class="slider-row" style="opacity:0.28;pointer-events:none;">
+          <span class="slider-lbl" style="color:${def.color};">${def.lbl}</span>
+          <div style="flex:1;height:3px;background:var(--border);border-radius:2px;position:relative;">
+            <div style="position:absolute;left:${thumbPct}%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;border-radius:50%;background:var(--fg);"></div>
+          </div>
+          <span class="slider-val">${displayVal}</span>
+        </div>`;
+    }
+  });
+  sliderSection.innerHTML = slidersHTML;
+
+  const updatePlayer = () => {
+    if (levelSubmitted) return;
+    // Only update active channels from sliders
+    activeChannels.forEach(ch => {
+      const idMap = { h: 'slH', s: 'slS', l: 'slL' };
+      const valIdMap = { h: 'valH', s: 'valS', l: 'valL' };
+      const unitMap = { h: '°', s: '%', l: '%' };
+      const el = document.getElementById(idMap[ch]);
+      if (el) {
+        playerColor[ch] = +el.value;
+        const vEl = document.getElementById(valIdMap[ch]);
+        if (vEl) vEl.textContent = playerColor[ch] + unitMap[ch];
+      }
+    });
+    const hex = hslToHex(playerColor.h, playerColor.s, playerColor.l);
+    document.getElementById('colorPlayer').style.background = hex;
+    document.getElementById('playerHexLabel').textContent = hex.toUpperCase();
+  };
+
+  // Bind events only to active sliders
+  activeChannels.forEach(ch => {
+    const idMap = { h: 'slH', s: 'slS', l: 'slL' };
+    const el = document.getElementById(idMap[ch]);
+    if (el) el.addEventListener('input', updatePlayer);
+  });
+
+  // Show hint badge about how many sliders if simplified (skip in hard mode)
+  if (selectedDifficulty !== 'hard') {
+    if (sliderMode === 'single') {
+      const hint = document.createElement('div');
+      hint.style.cssText = 'position:absolute;bottom:10px;right:12px;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted2);z-index:5;';
+      hint.textContent = '单滑轨模式';
+      zone.appendChild(hint);
+    } else if (sliderMode === 'two') {
+      const hint = document.createElement('div');
+      hint.style.cssText = 'position:absolute;bottom:10px;right:12px;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted2);z-index:5;';
+      hint.textContent = '双滑轨模式';
+      zone.appendChild(hint);
+    }
+  }
+}
+
+function submitColorMode() {
+  const tr = hslToRgb(targetColor.h, targetColor.s, targetColor.l);
+  const pr = hslToRgb(playerColor.h, playerColor.s, playerColor.l);
+  const dist = colorDistance(tr, pr);
+  const maxDist = Math.sqrt(3 * 255**2);
+  const scfg = getCurrentStageCfg();
+  const score = Math.round(Math.max(0, 100 - (dist / maxDist) * 100 * scfg.colorScoreMult));
+
+  const overlay = document.getElementById('colorResultOverlay');
+  if (overlay) {
+    const targetHex = hslToHex(targetColor.h, targetColor.s, targetColor.l);
+    const playerHex = hslToHex(playerColor.h, playerColor.s, playerColor.l);
+    document.getElementById('compareTarget').style.background = targetHex;
+    document.getElementById('comparePlayer').style.background = playerHex;
+    document.getElementById('colorScoreBig').textContent = `${score} 分 · Δ${dist.toFixed(1)}`;
+    overlay.classList.add('show');
+  }
+
+  const ss = document.getElementById('colorSliderSection');
+  if (ss) ss.style.display = 'none';
+
+  return score;
+}
+
+/* ═══════════════════════════════════════════════
+   MODE 3: ALIGNMENT
+═══════════════════════════════════════════════ */
+let alignDragState = null;
+let alignItems = [];
+
+function setupAlignMode() {
+  const zone = challengeZone;
+  zone.innerHTML = '';
+  zone.style.overflow = 'hidden';
+  alignItems = [];
+
+  const zs = getZoneSize();
+  const type = Math.random() < 0.5 ? 'text' : 'blocks';
+
+  if (type === 'text') {
+    setupAlignText(zone, zs);
+  } else {
+    setupAlignBlocks(zone, zs);
+  }
+}
+
+function setupAlignText(zone, zs) {
+  const pairs = [
+    ['Helvetica Neue', 'Swiss Design 1957'],
+    ['Pixel Perfect', 'Visual Alignment'],
+    ['Design System', 'Components'],
+    ['甲方的颜色', '不够好看'],
+  ];
+  const pair = pick(pairs);
+  const acfg = getCurrentStageCfg();
+  const isCenterMode = acfg.alignCenterMode === true;
+
+  // For center-align mode, reference element is horizontally centered in zone
+  // For left-edge mode, reference element starts at 20% from left
+  const baseX = isCenterMode ? Math.round(zs * 0.5 - 80) : Math.round(zs * 0.2);
+  const y1 = Math.round(zs * 0.36);
+  const y2 = Math.round(zs * 0.56);
+
+  // In centerMode: offset el2 so its center is far from el1's center
+  const offsetX = Math.round(rand(acfg.alignOffset[0], acfg.alignOffset[1]) * (Math.random() < 0.5 ? 1 : -1));
+  const el2X = clamp(baseX + offsetX, 10, zs - 200);
+
+  // mode label
+  const ml = document.createElement('div');
+  ml.className = 'zone-mode-label';
+  if (selectedDifficulty === 'hard') {
+    ml.textContent = '拖拽下方元素，使两者水平居中对齐';
+  } else {
+    ml.textContent = isCenterMode ? '拖拽下方元素，使两者水平居中对齐' : '拖拽下方元素，使左边缘对齐';
+  }
+  zone.appendChild(ml);
+
+  // Easy: show a soft vertical dashed line at target center
+  if (acfg.alignShowGuide) {
+    const guidePx = isCenterMode ? baseX + 80 : baseX; // approx center for text
+    const vline = document.createElement('div');
+    vline.style.cssText = `position:absolute;left:${guidePx}px;top:${y1 - 8}px;width:1px;height:${y2 - y1 + 28}px;
+      background:repeating-linear-gradient(to bottom,rgba(10,10,10,0.25) 0,rgba(10,10,10,0.25) 4px,transparent 4px,transparent 8px);
+      pointer-events:none;z-index:2;`;
+    zone.appendChild(vline);
+  }
+
+  // Hard mode: both elements similar color (harder to distinguish reference)
+  const ref1Color = selectedDifficulty === 'hard' ? '#5A5A5A' : '#0A0A0A';
+  const ref2Color = selectedDifficulty === 'hard' ? '#7A7A7A' : '#9A9A9A';
+  const ref2Size  = selectedDifficulty === 'hard' ? '10px' : '12px';
+
+  const el1 = document.createElement('div');
+  el1.className = 'align-item';
+  el1.dataset.idx = '0';
+  el1.dataset.fixed = 'true';
+  el1.style.cssText = `left:${baseX}px;top:${y1}px;cursor:default;`;
+  el1.innerHTML = `<div class="align-item-inner" style="font-size:17px;font-weight:800;letter-spacing:-0.03em;color:${ref1Color};white-space:nowrap;">${pair[0]}</div>`;
+  zone.appendChild(el1);
+
+  const el2 = document.createElement('div');
+  el2.className = 'align-item';
+  el2.dataset.idx = '1';
+  el2.style.cssText = `left:${el2X}px;top:${y2}px;cursor:ew-resize;`;
+  el2.innerHTML = `<div class="align-item-inner" style="font-size:${ref2Size};font-weight:500;letter-spacing:0.06em;color:${ref2Color};white-space:nowrap;text-transform:uppercase;">${pair[1]}</div>`;
+  zone.appendChild(el2);
+
+  const guide = document.createElement('div');
+  guide.className = 'align-guide';
+  guide.id = 'alignGuide';
+  guide.style.top = (y1 + 10) + 'px';
+  zone.appendChild(guide);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'align-result-overlay';
+  overlay.id = 'alignResultOverlay';
+  overlay.innerHTML = `
+    <div class="align-result-score" id="alignScoreNum">—</div>
+    <div class="align-result-sub">${isCenterMode ? '居中对齐精准度' : '对齐精准度'}</div>
+  `;
+  zone.appendChild(overlay);
+
+  alignItems = [
+    { el: el1, x: baseX, fixed: true, isCenterMode },
+    { el: el2, x: el2X, fixed: false, isCenterMode },
+  ];
+  setupAlignDrag(zone, zs);
+  if (acfg.alignJitter) startAlignJitter(el1, baseX, y1);
+}
+
+function setupAlignBlocks(zone, zs) {
+  const bw = 88, bh = 36;
+  const abcfg = getCurrentStageCfg();
+  const isCenterMode = abcfg.alignCenterMode === true;
+
+  // In centerMode: reference block is centered in zone
+  const baseX = isCenterMode ? Math.round(zs / 2 - bw / 2) : Math.round(zs * 0.18);
+  const y1 = Math.round(zs * 0.3);
+  const y2 = Math.round(zs * 0.58);
+  const offsetX = Math.round(rand(abcfg.alignOffset[0], abcfg.alignOffset[1]) * (Math.random() < 0.5 ? 1 : -1));
+
+  // Hard: movable block different width from reference (makes center hard to judge)
+  const w2 = selectedDifficulty === 'hard' ? randInt(28, 70) : randInt(44, 130);
+  const el2X = clamp(baseX + offsetX, 8, zs - w2 - 8);
+
+  const block1Color = '#0A0A0A';
+  // Hard: movable block close in lightness (hard to judge center position)
+  const block2Color = selectedDifficulty === 'hard' ? '#3C3C3C' : '#C8C8C8';
+  const block2H      = selectedDifficulty === 'hard' ? bh * 0.7 : bh * 0.55;
+
+  const ml = document.createElement('div');
+  ml.className = 'zone-mode-label';
+  if (selectedDifficulty === 'hard') {
+    ml.textContent = '拖拽下方色块，使两者水平居中对齐';
+  } else {
+    ml.textContent = isCenterMode ? '拖拽下方色块，使两者水平居中对齐' : '拖拽下方色块，使左边缘对齐';
+  }
+  zone.appendChild(ml);
+
+  // Easy guide: center guide line
+  if (abcfg.alignShowGuide) {
+    const guidePx = isCenterMode ? baseX + bw / 2 : baseX;
+    const vline = document.createElement('div');
+    vline.style.cssText = `position:absolute;left:${guidePx}px;top:${y1 - 8}px;width:1px;height:${y2 - y1 + bh + 10}px;
+      background:repeating-linear-gradient(to bottom,rgba(10,10,10,0.25) 0,rgba(10,10,10,0.25) 4px,transparent 4px,transparent 8px);
+      pointer-events:none;z-index:2;`;
+    zone.appendChild(vline);
+  }
+
+  const el1 = document.createElement('div');
+  el1.className = 'align-item';
+  el1.dataset.fixed = 'true';
+  el1.style.cssText = `left:${baseX}px;top:${y1}px;cursor:default;`;
+  el1.innerHTML = `<div class="align-item-inner" style="width:${bw}px;height:${bh}px;background:${block1Color};border-radius:6px;"></div>`;
+  zone.appendChild(el1);
+
+  const el2 = document.createElement('div');
+  el2.className = 'align-item';
+  el2.style.cssText = `left:${el2X}px;top:${y2}px;cursor:ew-resize;`;
+  el2.innerHTML = `<div class="align-item-inner" style="width:${w2}px;height:${block2H}px;background:${block2Color};border-radius:4px;"></div>`;
+  zone.appendChild(el2);
+
+  const guide = document.createElement('div');
+  guide.className = 'align-guide';
+  guide.id = 'alignGuide';
+  guide.style.top = (y1 + bh / 2) + 'px';
+  zone.appendChild(guide);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'align-result-overlay';
+  overlay.id = 'alignResultOverlay';
+  overlay.innerHTML = `
+    <div class="align-result-score" id="alignScoreNum">—</div>
+    <div class="align-result-sub">${isCenterMode ? '居中对齐精准度' : '对齐精准度'}</div>
+  `;
+  zone.appendChild(overlay);
+
+  alignItems = [
+    { el: el1, x: baseX, w: bw, fixed: true, isCenterMode },
+    { el: el2, x: el2X, w: w2, fixed: false, isCenterMode },
+  ];
+  setupAlignDrag(zone, zs);
+  if (abcfg.alignJitter) startAlignJitter(el1, baseX, y1);
+}
+
+// Hard mode: reference element slowly drifts left/right to confuse alignment judgment
+let alignJitterRaf = null;
+function startAlignJitter(el, baseX, baseY) {
+  if (alignJitterRaf) cancelAnimationFrame(alignJitterRaf);
+  let phase = Math.random() * Math.PI * 2;
+  const amplitude = 6; // px — gentle but noticeable drift
+  const freq = 0.9;    // cycles per second
+  let lastTime = performance.now();
+
+  function tick(now) {
+    if (levelSubmitted) return;
+    const dt = (now - lastTime) / 1000;
+    phase += freq * Math.PI * 2 * dt;
+    const offset = Math.sin(phase) * amplitude;
+    el.style.left = (baseX + offset) + 'px';
+    lastTime = now;
+    alignJitterRaf = requestAnimationFrame(tick);
+  }
+  alignJitterRaf = requestAnimationFrame(tick);
+
+  // Stop jitter on level cleanup
+  const origCleanup = challengeZone._cleanup;
+  challengeZone._cleanup = () => {
+    if (alignJitterRaf) { cancelAnimationFrame(alignJitterRaf); alignJitterRaf = null; }
+    if (origCleanup) origCleanup();
+  };
+}
+
+function setupAlignDrag(zone, zs) {
+  const movable = alignItems.find(i => !i.fixed);
+  if (!movable) return;
+  const el = movable.el;
+
+  function onDown(e) {
+    if (levelSubmitted) return;
+    e.preventDefault();
+    const pt = e.touches ? e.touches[0] : e;
+    alignDragState = { startClientX: pt.clientX, startElX: movable.x };
+  }
+  function onMove(e) {
+    if (!alignDragState || levelSubmitted) return;
+    e.preventDefault();
+    const pt = e.touches ? e.touches[0] : e;
+    const dx = pt.clientX - alignDragState.startClientX;
+    const elW = el.getBoundingClientRect().width;
+    movable.x = clamp(alignDragState.startElX + dx, 4, zs - elW - 4);
+    el.style.left = movable.x + 'px';
+  }
+  function onUp() { alignDragState = null; }
+
+  el.addEventListener('mousedown', onDown);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  el.addEventListener('touchstart', onDown, { passive: false });
+  window.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('touchend', onUp);
+
+  zone._cleanup = () => {
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup', onUp);
+    window.removeEventListener('touchmove', onMove);
+    window.removeEventListener('touchend', onUp);
+  };
+}
+
+function submitAlignMode() {
+  const fixed  = alignItems.find(i => i.fixed);
+  const movable = alignItems.find(i => !i.fixed);
+  const amcfg = getCurrentStageCfg();
+
+  let diff;
+  if (movable.isCenterMode) {
+    // Center-align mode: compare horizontal CENTER of each element
+    // fixed.w / movable.w stored in alignItems; fall back to getBoundingClientRect
+    const fixedW  = fixed.w  || fixed.el.getBoundingClientRect().width  || 80;
+    const movableW = movable.w || movable.el.getBoundingClientRect().width || 60;
+    const fixedCenter  = fixed.x  + fixedW  / 2;
+    const movableCenter = movable.x + movableW / 2;
+    diff = Math.abs(fixedCenter - movableCenter);
+  } else {
+    // Left-edge align mode (original)
+    diff = Math.abs(fixed.x - movable.x);
+  }
+
+  const score = Math.round(Math.max(0, 100 - (diff / amcfg.alignMaxDiff) * 100));
+
+  if (movable.isCenterMode) {
+    // Center mode: show a vertical red dashed line at the fixed element's center
+    const fixedW = fixed.w || fixed.el.getBoundingClientRect().width || 80;
+    const centerX = fixed.x + fixedW / 2;
+    const existingVGuide = document.getElementById('centerAlignGuide');
+    if (!existingVGuide) {
+      const vg = document.createElement('div');
+      vg.id = 'centerAlignGuide';
+      vg.style.cssText = `position:absolute;top:0;bottom:0;left:${centerX}px;width:1px;
+        background:repeating-linear-gradient(to bottom,#E8392A 0,#E8392A 4px,transparent 4px,transparent 8px);
+        pointer-events:none;z-index:3;`;
+      challengeZone.appendChild(vg);
+    }
+  } else {
+    const guide = document.getElementById('alignGuide');
+    if (guide) guide.classList.add('show');
+  }
+
+  const overlay = document.getElementById('alignResultOverlay');
+  const scoreNum = document.getElementById('alignScoreNum');
+  if (overlay && scoreNum) {
+    scoreNum.textContent = `${score} 分`;
+    overlay.classList.add('show');
+  }
+
+  return score;
+}
+
+/* ═══════════════════════════════════════════════
+   TIMER
+═══════════════════════════════════════════════ */
+function startTimer() {
+  clearInterval(timerInterval);
+  timerLeft = timerSeconds;
+  timerBar.style.width = '100%';
+  timerBar.classList.remove('danger');
+
+  timerInterval = setInterval(() => {
+    timerLeft -= 0.1;
+    const pct = Math.max(0, (timerLeft / timerSeconds) * 100);
+    timerBar.style.width = pct + '%';
+    if (pct <= 25 && !timerBar.classList.contains('danger')) {
+      timerBar.classList.add('danger');
+    }
+    if (timerLeft <= 0) {
+      clearInterval(timerInterval);
+      if (!levelSubmitted) submitLevel(true);
+    }
+  }, 100);
+}
+
+function stopTimer() { clearInterval(timerInterval); }
+
+/* ═══════════════════════════════════════════════
+   GAME LOOP
+═══════════════════════════════════════════════ */
+const MODES = ['center','color','align'];
+
+function generateSequence() {
+  const seq = ['center','color','align'];
+  while (seq.length < totalLevels) seq.push(pick(MODES));
+  for (let i = seq.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [seq[i], seq[j]] = [seq[j], seq[i]];
+  }
+  return seq.slice(0, totalLevels);
+}
+
+function loadLevel() {
+  levelSubmitted = false;
+  doneBtn.disabled = false;
+  doneBtn.style.display = '';
+  nextBtn.classList.remove('show');
+
+  if (challengeZone._cleanup) {
+    challengeZone._cleanup();
+    challengeZone._cleanup = null;
+  }
+  challengeZone.innerHTML = '';
+
+  const ss = document.getElementById('colorSliderSection');
+  if (ss) ss.remove();
+
+  challengeZone.style.overflow = 'hidden';
+  // Hard mode: add noise texture to zone, hide mode label
+  if (selectedDifficulty === 'hard') {
+    challengeZone.classList.add('hard-noise');
+  } else {
+    challengeZone.classList.remove('hard-noise');
+  }
+
+  const stageCfg = getCurrentStageCfg();
+  timerSeconds = stageCfg.timer;
+
+  const mode = modeSequence[currentLevel];
+  const diffCfgL = DIFFICULTY_CONFIG[selectedDifficulty];
+  // Hard: hide mode label (no hint what mode it is until interaction begins)
+  if (selectedDifficulty === 'hard') {
+    levelLabel.textContent = `💀 地狱 · ${stageCfg.label}`;
+  } else {
+    const modeLabels = { center: '⧙ 居中', color: '◐ 色感', align: '⊞ 对齐' };
+    levelLabel.textContent = `${modeLabels[mode]} · ${diffCfgL.name}`;
+  }
+  updateLevelDots();
+  jiafangQuote.textContent = pick(QUOTES);
+  setupZone();
+
+  if (mode === 'center') {
+    setupCenteringMode();
+  } else if (mode === 'color') {
+    setupColorMode();
+  } else {
+    setupAlignMode();
+  }
+
+  startTimer();
+}
+
+function submitLevel(timeout = false) {
+  if (levelSubmitted) return;
+  levelSubmitted = true;
+  stopTimer();
+  doneBtn.disabled = true;
+
+  const mode = modeSequence[currentLevel];
+  let score = 0;
+  if (mode === 'center') score = submitCenteringMode();
+  else if (mode === 'color') score = submitColorMode();
+  else score = submitAlignMode();
+
+  levelScores.push(score);
+  totalScore = levelScores.reduce((a, b) => a + b, 0);
+  scoreLabel.textContent = totalScore + ' pts';
+
+  // Perfect toast
+  if (score >= 95) {
+    document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 550);
+    perfectToast.classList.remove('pop');
+    void perfectToast.offsetWidth;
+    perfectToast.classList.add('pop');
+  }
+
+  // Score pop
+  const isGood = score >= 80;
+  scorePop.textContent = (isGood ? '+' : '') + score + ' pts';
+  scorePop.style.color = score >= 95 ? 'var(--gold)' : score >= 80 ? 'var(--green)' : 'var(--fg)';
+  scorePop.classList.remove('show');
+  void scorePop.offsetWidth;
+  scorePop.classList.add('show');
+
+  doneBtn.style.display = 'none';
+  nextBtn.classList.add('show');
+  nextBtn.textContent = currentLevel >= totalLevels - 1 ? '查看诊断报告 →' : 'Next →';
+}
+
+function nextLevel() {
+  currentLevel++;
+  if (currentLevel >= totalLevels) {
+    showResults();
+    return;
+  }
+  lvlOverlay.classList.add('fade-in');
+  setTimeout(() => {
+    loadLevel();
+    lvlOverlay.classList.remove('fade-in');
+  }, 280);
+}
+
+function showResults() {
+  const avg = Math.round(totalScore / totalLevels);
+  const diag = DIAGNOSIS.find(d => avg >= d.min);
+  const stageCfg = getCurrentStageCfg();
+  const diffCfgR = DIFFICULTY_CONFIG[selectedDifficulty];
+
+  // Animate score
+  let displayed = 0;
+  finalScore.textContent = '0';
+  const step = () => {
+    displayed = Math.min(displayed + Math.ceil(avg / 20), avg);
+    finalScore.textContent = displayed;
+    if (displayed < avg) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+
+  diagnosisText.innerHTML = diag.text.replace('\n','<br>');
+  resultGrade.textContent = diag.grade;
+  resultGrade.className = 'result-grade ' + diag.gradeClass;
+
+  // Update eyebrow with difficulty
+  if (resultEyebrow) {
+    resultEyebrow.textContent = `视觉诊断报告 · ${diffCfgR.name} · ${stageCfg.label}`;
+  }
+
+  // Per-level breakdown (5 levels)
+  let breakdownHTML = `<div style="width:100%;display:flex;flex-direction:column;gap:0;">`;
+  breakdownHTML += `<div style="display:flex;align-items:center;border-bottom:1px solid var(--border);padding:8px 16px;gap:8px;">`;
+  levelScores.forEach((s, i) => {
+    const col = s >= 95 ? 'var(--gold)' : s >= 80 ? 'var(--green)' : s >= 60 ? 'var(--color-warning)' : 'var(--red)';
+    breakdownHTML += `
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <span style="font-size:15px;font-weight:800;color:${col};font-variant-numeric:tabular-nums;">${s}</span>
+        <span style="font-size:8px;color:var(--muted2);letter-spacing:0.06em;">Lv.${i+1}</span>
+      </div>
+    `;
+  });
+  breakdownHTML += `
+    <div style="width:1px;background:var(--border);align-self:stretch;"></div>
+    <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;background:var(--fg);border-radius:8px;padding:6px 12px;">
+      <span style="font-size:18px;font-weight:800;color:var(--bg);font-variant-numeric:tabular-nums;">${avg}</span>
+      <span style="font-size:8px;color:rgba(255,255,255,0.5);letter-spacing:0.1em;">均分</span>
+    </div>
+  </div></div>`;
+  breakdownRow.innerHTML = breakdownHTML;
+
+  // Save to leaderboard
+  const entry = {
+    score: avg,
+    grade: diag.grade,
+    date: Date.now(),
+    stageLabel: stageCfg.label,
+  };
+  const rank = lbSave(selectedDifficulty, entry);
+
+  // Show mini leaderboard in result (highlight this entry)
+  if (resultLbTitle) {
+    resultLbTitle.textContent = `🏆 ${diffCfgR.name}难度 · 排行榜  （本次第 ${rank} 名）`;
+  }
+  if (resultLbList) {
+    // Reset _alreadyMarked flags before rendering
+    lbGet(selectedDifficulty).forEach(e => delete e._alreadyMarked);
+    resultLbList.innerHTML = renderLbList(selectedDifficulty, avg);
+  }
+
+  showScreen('resultScreen');
+}
+
+function startNewRun() {
+  // Pick a random stage index for variety
+  currentStageIndex = randInt(0, 2);
+  currentLevel = 0;
+  currentStageScores = [];
+  levelScores = [];
+  totalScore = 0;
+  modeSequence = generateSequence();
+  scoreLabel.textContent = '0 pts';
+  timerBar.style.width = '100%';
+  timerBar.classList.remove('danger');
+
+  // Update in-game difficulty badge
+  const diffCfgS = DIFFICULTY_CONFIG[selectedDifficulty];
+  const badgeS = document.getElementById('diffBadgeInGame');
+  if (badgeS) {
+    badgeS.textContent = diffCfgS.name;
+    badgeS.className = 'diff-badge ' + selectedDifficulty;
+  }
+
+  const ss = document.getElementById('colorSliderSection');
+  if (ss) ss.remove();
+
+  lvlOverlay.classList.add('fade-in');
+  setTimeout(() => {
+    showStageBanner(currentStageIndex);
+    showScreen('gameScreen');
+    loadLevel();
+    lvlOverlay.classList.remove('fade-in');
+  }, 280);
+}
+
+function resetAndStart() { startNewRun(); }
+
+function goHome() {
+  stopTimer();
+  if (challengeZone._cleanup) {
+    challengeZone._cleanup();
+    challengeZone._cleanup = null;
+  }
+  const ss = document.getElementById('colorSliderSection');
+  if (ss) ss.remove();
+
+  lvlOverlay.classList.add('fade-in');
+  setTimeout(() => {
+    showScreen('startScreen');
+    lvlOverlay.classList.remove('fade-in');
+  }, 280);
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+
+// Difficulty selector on start screen
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedDifficulty = btn.dataset.diff;
+    const cfg = DIFFICULTY_CONFIG[selectedDifficulty];
+    const timer = cfg.stages[0].timer;
+    if (startHint) {
+      const diff2 = btn.dataset.diff;
+      if (diff2 === 'hard') {
+        startHint.textContent = '共 5 关 · 每关 15 秒 · 居中对齐+像素陉阱';
+      } else {
+        startHint.textContent = `共 5 关 · 每关 ${timer} 秒`;
+      }
+    }
+  });
+});
+
+// Start button
+document.getElementById('startBtn').addEventListener('click', () => { startNewRun(); });
+
+// Leaderboard button on start screen
+document.getElementById('leaderboardBtn').addEventListener('click', () => {
+  renderLbScreen('easy');
+  lvlOverlay.classList.add('fade-in');
+  setTimeout(() => {
+    showScreen('leaderboardScreen');
+    lvlOverlay.classList.remove('fade-in');
+  }, 220);
+});
+
+// Leaderboard back button
+document.getElementById('lbBackBtn').addEventListener('click', () => {
+  lvlOverlay.classList.add('fade-in');
+  setTimeout(() => {
+    showScreen('startScreen');
+    lvlOverlay.classList.remove('fade-in');
+  }, 220);
+});
+
+// Leaderboard diff tabs
+document.querySelectorAll('.lb-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderLbScreen(tab.dataset.diff);
+  });
+});
+
+function renderLbScreen(diff) {
+  lbGet(diff).forEach(e => delete e._alreadyMarked);
+  lbContent.innerHTML = renderLbList(diff);
+}
+
+doneBtn.addEventListener('click', () => submitLevel(false));
+nextBtn.addEventListener('click', () => nextLevel());
+restartBtn.addEventListener('click', () => resetAndStart());
+goHomeBtn.addEventListener('click', () => goHome());
+
+quitBtn.addEventListener('click', () => {
+  if (confirm('放弃当前挑战并返回首页？')) {
+    goHome();
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (gameScreen.classList.contains('active')) setupZone();
+});
+</script>
+
+
+</body></html>
